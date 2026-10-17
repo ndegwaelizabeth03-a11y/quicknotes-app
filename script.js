@@ -1,9 +1,9 @@
-
 "use strict";
 
 // Select the required HTML elements.
 const noteForm = document.querySelector("#note-form");
 const noteInput = document.querySelector("#note-input");
+const characterCount = document.querySelector("#character-count");
 const noteCategory = document.querySelector("#note-category");
 const errorMessage = document.querySelector("#error-message");
 const searchInput = document.querySelector("#search-input");
@@ -16,6 +16,14 @@ const VALID_CATEGORIES = ["Personal", "Work", "Study"];
 
 // Store notes as an array of objects.
 let notes = [];
+
+// Display the live character count.
+function updateCharacterCount() {
+    if (!characterCount) return;
+
+    characterCount.textContent =
+        `${noteInput.value.length}/200 characters`;
+}
 
 // Load saved notes from localStorage.
 function loadNotes() {
@@ -75,7 +83,7 @@ function updateNoteCount() {
     }
 }
 
-// Render notes and filter by note text or category.
+// Render notes and filter by text or category.
 function render() {
     notesList.replaceChildren();
 
@@ -119,12 +127,10 @@ function render() {
         noteMeta.className = "note-meta";
 
         const categoryLabel = document.createElement("span");
-
         categoryLabel.classList.add(
             "category-label",
             `category-${note.category.toLowerCase()}`
         );
-
         categoryLabel.textContent = note.category;
 
         const dateLabel = document.createElement("time");
@@ -136,7 +142,6 @@ function render() {
         deleteButton.type = "button";
         deleteButton.className = "delete-btn";
         deleteButton.textContent = "Delete";
-
         deleteButton.setAttribute(
             "aria-label",
             `Delete note: ${note.text}`
@@ -146,12 +151,7 @@ function render() {
             deleteNote(note.id);
         });
 
-        noteMeta.append(
-            categoryLabel,
-            dateLabel,
-            deleteButton
-        );
-
+        noteMeta.append(categoryLabel, dateLabel, deleteButton);
         noteCard.append(noteText, noteMeta);
         notesList.appendChild(noteCard);
     });
@@ -200,6 +200,7 @@ noteForm.addEventListener("submit", function (event) {
 
     errorMessage.textContent = "";
     noteInput.value = "";
+    updateCharacterCount();
     searchInput.value = "";
 
     render();
@@ -225,7 +226,10 @@ function deleteNote(id) {
 // Update the displayed list whenever the search changes.
 searchInput.addEventListener("input", render);
 
-// Bonus: clear all notes after confirmation.
+// Update the character count as the user types.
+noteInput.addEventListener("input", updateCharacterCount);
+
+// Clear all notes after confirmation.
 clearAllButton.addEventListener("click", function () {
     if (notes.length === 0) {
         return;
@@ -248,4 +252,5 @@ clearAllButton.addEventListener("click", function () {
 
 // Load saved notes and display the initial page.
 loadNotes();
+updateCharacterCount();
 render();
