@@ -1,8 +1,10 @@
 
+/* Reset */
 * {
     box-sizing: border-box;
 }
 
+/* Theme colours */
 :root {
     --primary: #176b65;
     --primary-dark: #10514d;
@@ -13,6 +15,7 @@
     --error: #c62828;
 }
 
+/* General page styling */
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -21,6 +24,7 @@ body {
     background: var(--page-bg);
 }
 
+/* Header */
 .app-header {
     padding: 30px 16px;
     text-align: center;
@@ -37,6 +41,7 @@ body {
     margin: 6px 0 0;
 }
 
+/* Main content */
 .container {
     width: 100%;
     max-width: 700px;
@@ -44,6 +49,7 @@ body {
     padding: 0 16px;
 }
 
+/* Sections */
 .section-card {
     margin-bottom: 24px;
     padding: 24px;
@@ -57,6 +63,7 @@ body {
     margin-top: 0;
 }
 
+/* Add-note form */
 #note-form {
     display: flex;
     align-items: flex-end;
@@ -75,6 +82,7 @@ label {
     font-weight: bold;
 }
 
+/* Inputs and category selector */
 input,
 select {
     width: 100%;
@@ -87,13 +95,15 @@ select {
     font: inherit;
 }
 
+/* Keyboard focus indicators */
 input:focus-visible,
 select:focus-visible,
 button:focus-visible {
     outline: 3px solid #e7a827;
-    outline-offset: 2px;
+    outline-offset: 3px;
 }
 
+/* Buttons */
 button {
     min-height: 44px;
     padding: 10px 16px;
@@ -111,6 +121,7 @@ button:hover {
     background: var(--primary-dark);
 }
 
+/* Error message */
 #error-message {
     margin: 0;
     color: var(--error);
@@ -122,6 +133,7 @@ button:hover {
     margin-top: 12px;
 }
 
+/* Search and note count */
 .search-group {
     margin-bottom: 18px;
 }
@@ -131,6 +143,7 @@ button:hover {
     font-size: 0.95rem;
 }
 
+/* Notes list */
 #notes-list {
     display: flex;
     flex-direction: column;
@@ -140,6 +153,7 @@ button:hover {
     list-style: none;
 }
 
+/* Individual note cards */
 .note-card {
     margin: 0 0 4px;
     padding: 16px;
@@ -147,8 +161,14 @@ button:hover {
     border-left: 5px solid #168f83;
     border-radius: 8px;
     overflow-wrap: anywhere;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
+.note-card:hover {
+    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+}
+
+/* Category-specific card colours */
 .category-personal {
     border-left-color: #168f83;
 }
@@ -161,11 +181,13 @@ button:hover {
     border-left-color: #2864b4;
 }
 
+/* Note text */
 .note-text {
     margin: 0 0 12px;
     white-space: pre-wrap;
 }
 
+/* Note details */
 .note-meta {
     display: flex;
     align-items: center;
@@ -174,6 +196,7 @@ button:hover {
     gap: 8px;
 }
 
+/* Category labels */
 .category-label {
     display: inline-block;
     padding: 3px 9px;
@@ -194,11 +217,13 @@ button:hover {
     color: #20549d;
 }
 
+/* Creation date */
 .note-date {
     color: var(--muted);
     font-size: 0.82rem;
 }
 
+/* Delete and clear-all buttons */
 .delete-btn,
 .clear-all-btn {
     background: #a52b35;
@@ -223,12 +248,14 @@ button:hover {
     display: none;
 }
 
+/* Empty-list message */
 .empty-message {
     padding: 16px;
     color: var(--muted);
     text-align: center;
 }
 
+/* Footer */
 .app-footer {
     padding: 18px;
     color: var(--muted);
@@ -236,6 +263,7 @@ button:hover {
     text-align: center;
 }
 
+/* Responsive layout for phones and small screens */
 @media (max-width: 600px) {
     .app-header {
         padding: 24px 16px;
