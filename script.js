@@ -231,23 +231,23 @@ noteInput.addEventListener("input", updateCharacterCount);
 
 // Clear all notes after confirmation.
 clearAllButton.addEventListener("click", function () {
-    if (notes.length === 0) {
+    const confirmed = confirm("Delete all notes?");
+
+    if (!confirmed) {
         return;
     }
 
-    if (confirm("Delete all notes?")) {
-        const previousNotes = notes;
-        notes = [];
+    const previousNotes = notes;
+    notes = [];
 
-        if (!saveNotes()) {
-            notes = previousNotes;
-            render();
-            return;
-        }
-
-        errorMessage.textContent = "";
+    if (!saveNotes()) {
+        notes = previousNotes;
         render();
+        return;
     }
+
+    errorMessage.textContent = "";
+    render();
 });
 
 // Load saved notes and display the initial page.
