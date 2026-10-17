@@ -1,20 +1,20 @@
 
 # QuickNotes
 
-QuickNotes is a simple, responsive note-taking web application that helps users organise their personal, work and study notes. Users can add notes, assign categories, search by note text, delete individual notes and clear all notes after confirmation. The application saves notes in the browser using localStorage so they remain available after a page refresh.
+QuickNotes is a simple, responsive note-taking web application that helps users organise their personal, work and study notes. Users can add notes, assign categories, search by note text or category, delete individual notes and clear all notes after confirmation. The application saves notes in the browser using localStorage so they remain available after a page refresh.
 
 ## Features
 
 - Add notes under Personal, Work or Study.
-- Validate empty notes and notes longer than 200 characters.
+- Validate empty notes and enforce a 200-character limit.
 - Display each note's category and creation date.
 - Delete individual notes.
-- Search notes without case sensitivity.
+- Search notes by text or category without case sensitivity.
 - Display the correct total note count.
 - Save and restore notes using localStorage and JSON.
 - Clear all notes with a confirmation prompt.
 - Responsive layout for desktop and mobile screens.
-- Accessible labels and validation messages.
+- Accessible labels, keyboard focus indicators and validation messages.
 
 ## How to Run Locally
 
@@ -33,5 +33,5 @@ Notes are stored in the current browser's localStorage. They are not automatical
 - How to use CSS Flexbox, category classes and media queries.
 - How to handle forms, validation and events using JavaScript.
 - How to use arrays and objects to manage notes.
-- How to save and restore data using JSON.stringify, JSON.parse and localStorage.
+- How to save and restore data using `JSON.stringify()`, `JSON.parse()` and localStorage.
 - How to use Git commits to track changes throughout a project.
