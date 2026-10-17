@@ -12,11 +12,12 @@ const notesList = document.querySelector("#notes-list");
 const clearAllButton = document.querySelector("#clear-all-btn");
 
 const STORAGE_KEY = "quicknotes-notes";
+const VALID_CATEGORIES = ["Personal", "Work", "Study"];
 
 // Store notes as an array of objects.
 let notes = [];
 
-// Load notes from localStorage.
+// Load saved notes from localStorage.
 function loadNotes() {
     try {
         const savedNotes = localStorage.getItem(STORAGE_KEY);
@@ -33,14 +34,14 @@ function loadNotes() {
             return;
         }
 
-        // Accept only notes with the expected fields and categories.
+        // Keep only notes with valid fields and categories.
         notes = parsedNotes.filter(note =>
             note &&
             typeof note.id === "string" &&
             typeof note.text === "string" &&
             note.text.trim().length > 0 &&
             note.text.length <= 200 &&
-            ["Personal", "Work", "Study"].includes(note.category) &&
+            VALID_CATEGORIES.includes(note.category) &&
             typeof note.createdAt === "string" &&
             !Number.isNaN(Date.parse(note.createdAt))
         );
@@ -51,7 +52,7 @@ function loadNotes() {
     }
 }
 
-// Save notes as JSON.
+// Save notes to localStorage as JSON.
 function saveNotes() {
     try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
@@ -63,7 +64,7 @@ function saveNotes() {
     }
 }
 
-// Display the correct total count.
+// Display the total number of notes.
 function updateNoteCount() {
     if (notes.length === 0) {
         noteCount.textContent = "You have no notes yet.";
@@ -74,19 +75,21 @@ function updateNoteCount() {
     }
 }
 
-// Render the notes list and apply the search filter.
+// Render notes and filter by note text or category.
 function render() {
     notesList.replaceChildren();
 
     const searchTerm = searchInput.value.trim().toLowerCase();
 
     const filteredNotes = notes.filter(note =>
-        note.text.toLowerCase().includes(searchTerm)
+        note.text.toLowerCase().includes(searchTerm) ||
+        note.category.toLowerCase().includes(searchTerm)
     );
 
     updateNoteCount();
     clearAllButton.hidden = notes.length === 0;
 
+    // Show a message when there are no matching notes.
     if (filteredNotes.length === 0) {
         const emptyItem = document.createElement("li");
         emptyItem.className = "empty-message";
@@ -99,8 +102,10 @@ function render() {
         return;
     }
 
+    // Create each note card safely using DOM elements.
     filteredNotes.forEach(note => {
         const noteCard = document.createElement("li");
+
         noteCard.classList.add(
             "note-card",
             `category-${note.category.toLowerCase()}`
@@ -114,10 +119,12 @@ function render() {
         noteMeta.className = "note-meta";
 
         const categoryLabel = document.createElement("span");
+
         categoryLabel.classList.add(
             "category-label",
             `category-${note.category.toLowerCase()}`
         );
+
         categoryLabel.textContent = note.category;
 
         const dateLabel = document.createElement("time");
@@ -129,6 +136,7 @@ function render() {
         deleteButton.type = "button";
         deleteButton.className = "delete-btn";
         deleteButton.textContent = "Delete";
+
         deleteButton.setAttribute(
             "aria-label",
             `Delete note: ${note.text}`
@@ -169,8 +177,9 @@ noteForm.addEventListener("submit", function (event) {
         return;
     }
 
-    if (!["Personal", "Work", "Study"].includes(category)) {
+    if (!VALID_CATEGORIES.includes(category)) {
         errorMessage.textContent = "Please select a valid category.";
+        noteCategory.focus();
         return;
     }
 
@@ -197,7 +206,7 @@ noteForm.addEventListener("submit", function (event) {
     noteInput.focus();
 });
 
-// Delete one note by its unique ID.
+// Delete one note using its unique ID.
 function deleteNote(id) {
     const previousNotes = notes;
 
@@ -213,10 +222,10 @@ function deleteNote(id) {
     render();
 }
 
-// Update the displayed notes whenever the search changes.
+// Update the displayed list whenever the search changes.
 searchInput.addEventListener("input", render);
 
-// Bonus: clear all notes after asking for confirmation.
+// Bonus: clear all notes after confirmation.
 clearAllButton.addEventListener("click", function () {
     if (notes.length === 0) {
         return;
@@ -237,6 +246,6 @@ clearAllButton.addEventListener("click", function () {
     }
 });
 
-// Restore saved notes and display the initial page.
+// Load saved notes and display the initial page.
 loadNotes();
 render();
